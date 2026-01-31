@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Google_Sans,
+  Google_Sans_Code,
+  Google_Sans_Flex,
+} from "next/font/google";
 import "./globals.css";
+import Navbar from "./ui/navigation/navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const googleSans = Google_Sans({
+  variable: "--font-google-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const googleCode = Google_Sans_Code({
+  variable: "--font-google-code",
   subsets: ["latin"],
 });
 
@@ -25,8 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`mx-auto max-w-6xl ${googleSans.variable} ${googleCode.variable} antialiased`}
       >
+        <Navbar />
         {children}
       </body>
     </html>
