@@ -6,6 +6,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "./ui/navigation/navbar";
+import "@mantine/core/styles.css";
 
 const googleSans = Google_Sans({
   variable: "--font-google-sans",
