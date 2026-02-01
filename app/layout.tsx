@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
-import {
-  Google_Sans,
-  Google_Sans_Code,
-  Google_Sans_Flex,
-} from "next/font/google";
+import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./ui/navigation/navbar";
 import "@mantine/core/styles.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const googleSans = Google_Sans({
-  variable: "--font-google-sans",
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin"],
 });
 
-const googleCode = Google_Sans_Code({
-  variable: "--font-google-code",
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
   subsets: ["latin"],
 });
 
@@ -29,12 +26,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`mx-auto max-w-6xl ${googleSans.variable} ${googleCode.variable} antialiased`}
-      >
-        <Navbar />
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${roboto.variable} ${robotoMono.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <main className="container mx-auto px-4 py-8">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );
