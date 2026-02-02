@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +25,11 @@ import {
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/dashboard")) {
+    return null;
+  }
 
   return (
     <>
@@ -48,16 +54,6 @@ export default function Navbar() {
                   <span>Manifesto</span>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              {user && (
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    href="/dashboard"
-                    className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <span>Snippets</span>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              )}
             </NavigationMenuList>
           </NavigationMenu>
 
@@ -78,8 +74,6 @@ export default function Navbar() {
                         <Link href="/dashboard">Dashboard</Link>
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                       <DropdownMenuItem>

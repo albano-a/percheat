@@ -21,9 +21,12 @@ export function LoginForm() {
     setError(null);
     try {
       setIsLoading(true);
-      await account.createEmailPasswordSession(email, password);
+      await account.createEmailPasswordSession({
+        email: email,
+        password: password,
+      });
       await checkAuth(); // Update global auth state
-      router.push("/"); // Redirect after successful login
+      router.push("/dashboard"); // Redirect after successful login
     } catch (error: any) {
       console.error("Login failed:", error);
       setError(error.message || "Invalid credentials. Please try again.");
