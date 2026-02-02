@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { FaArrowRight, FaCode, FaFingerprint, FaSearch } from "react-icons/fa";
 
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="flex flex-col items-center">
@@ -21,7 +23,7 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button
             size="lg"
-            className="rounded-full px-8 py-7 text-lg font-medium transition-transform hover:scale-105"
+            className="rounded-full cursor-pointer px-8 py-7 text-lg font-medium transition-transform hover:scale-105"
           >
             Get Started
             <FaArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
@@ -29,9 +31,9 @@ export default function Home() {
           <Button
             variant="ghost"
             size="lg"
-            className="rounded-full px-8 py-7 text-lg text-muted-foreground hover:text-foreground hover:bg-transparent"
+            className="rounded-full cursor-pointer px-8 py-7 text-lg text-muted-foreground hover:text-foreground hover:bg-transparent"
           >
-            Read the manifesto
+            <Link href="/manifesto">Read the manifesto</Link>
           </Button>
         </div>
       </section>
@@ -39,7 +41,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="w-full py-24 px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-          <div className="space-y-4">
+          <div className="space-y-4 border border-zinc-700 p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
             <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900 text-foreground">
               <FaCode className="h-5 w-5" />
             </div>
@@ -52,7 +54,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 border border-zinc-700 p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
             <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900 text-foreground">
               <FaSearch className="h-5 w-5" />
             </div>
@@ -65,7 +67,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 border border-zinc-700 p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
             <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900 text-foreground">
               <FaFingerprint className="h-5 w-5" />
             </div>

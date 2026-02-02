@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <>
-      <div>Snippets page</div>
+      <div>Dashboard page (Users only)</div>
     </>
   );
 }
