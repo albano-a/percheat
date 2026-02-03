@@ -28,6 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   const checkAuth = async () => {
+    setLoading(true);
     try {
       const session = await account.get();
       setUser(session);

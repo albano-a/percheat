@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Manifesto | PerCheat",
-  description: "The story behind Personal Cheatsheet.",
+  title: "Manifesto | SnippetVault",
+  description: "The story behind SnippetVault.",
 };
 
 export default function ManifestoPage() {

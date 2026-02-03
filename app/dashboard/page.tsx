@@ -145,6 +145,8 @@ export default function DashboardPage() {
           value={snippet.content}
           options={{
             fontSize: 18,
+            minimap: { enabled: false },
+            readOnly: true,
           }}
         />
       </div>

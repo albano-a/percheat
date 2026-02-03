@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useAuth } from "@/context/auth-provider";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const pathname = usePathname();
 
   if (pathname?.startsWith("/dashboard")) {
@@ -37,9 +38,7 @@ export default function Navbar() {
         {/* Logo/Title */}
         <div>
           <Link href="/">
-            <h1 className="text-3xl font-black cursor-pointer">
-              Personal Cheatsheet
-            </h1>
+            <h1 className="text-3xl font-black cursor-pointer">SnippetVault</h1>
           </Link>
         </div>
         {/* Navigation Items */}
@@ -57,7 +56,11 @@ export default function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          {user ? (
+          {loading ? (
+            <div className="flex items-center ml-6 gap-4">
+              <Skeleton className="h-10 w-10 rounded-full" />
+            </div>
+          ) : user ? (
             <div className="flex items-center ml-6 gap-4">
               <span className="hidden md:inline-block text-sm font-medium text-muted-foreground">
                 <DropdownMenu>

@@ -2,8 +2,8 @@ import { LoginForm } from "@/components/auth/login-form";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Login - Percheat",
-  description: "Access your code sanctuary.",
+  title: "Login - SnippetVault",
+  description: "Access your SnippetVault.",
 };
 
 export default function LoginPage() {

@@ -2,8 +2,8 @@ import { RegisterForm } from "@/components/auth/register-form";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Register - Percheat",
-  description: "Create your personal code sanctuary.",
+  title: "Register - SnippetVault",
+  description: "Create your SnippetVault account.",
 };
 
 export default function RegisterPage() {
@@ -12,7 +12,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-black tracking-tighter text-foreground">
-            Join Percheat
+            Join SnippetVault
           </h1>
           <p className="text-muted-foreground text-sm leading-relaxed">
             Create your sanctuary for code.

@@ -24,9 +24,12 @@ export default function Home() {
           <Button
             size="lg"
             className="rounded-full cursor-pointer px-8 py-7 text-lg font-medium transition-transform hover:scale-105"
+            asChild
           >
-            Get Started
-            <FaArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            <Link href="/login">
+              Get Started
+              <FaArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            </Link>
           </Button>
           <Button
             variant="ghost"
@@ -91,8 +94,9 @@ export default function Home() {
           variant="outline"
           size="lg"
           className="rounded-full px-8 border-input"
+          asChild
         >
-          Join Percheat
+          <Link href="/register">Join SnippetVault</Link>
         </Button>
       </section>
     </div>

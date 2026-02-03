@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ID, tables } from "@/lib/appwrite";
 import { useAuth } from "@/context/auth-provider";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,11 @@ import {
 export default function SnippetForm() {
   const { user } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const snippetId = searchParams.get("id");
+  const isEditMode = Boolean(snippetId);
   const [loading, setLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -56,6 +60,36 @@ export default function SnippetForm() {
     "text",
   ];
 
+  useEffect(() => {
+    const fetchSnippet = async () => {
+      if (!user || !snippetId) return;
+      setIsFetching(true);
+      setError("");
+      try {
+        const doc = await tables.getRow({
+          databaseId: "codeSnippets",
+          tableId: "snippets",
+          rowId: snippetId,
+        });
+
+        setFormData({
+          title: doc?.title ?? "",
+          description: doc?.description ?? "",
+          language: String(doc?.language ?? "python").toLowerCase(),
+          content: doc?.content ?? "",
+          tags: Array.isArray(doc?.tags) ? doc.tags.join(", ") : "",
+          isPublic: Boolean(doc?.isPublic),
+        });
+      } catch (err: any) {
+        setError(err.message || "Failed to load snippet");
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    fetchSnippet();
+  }, [user, snippetId]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -80,20 +114,36 @@ export default function SnippetForm() {
         .map((tag) => tag.trim())
         .filter((tag) => tag !== "");
 
-      await tables.createRow({
-        databaseId: "codeSnippets",
-        tableId: "snippets",
-        rowId: ID.unique(),
-        data: {
-          title: formData.title,
-          description: formData.description,
-          language: formData.language,
-          content: formData.content,
-          tags: tagsArray,
-          isPublic: formData.isPublic,
-          userId: user.$id,
-        },
-      });
+      if (isEditMode && snippetId) {
+        await tables.updateRow({
+          databaseId: "codeSnippets",
+          tableId: "snippets",
+          rowId: snippetId,
+          data: {
+            title: formData.title,
+            description: formData.description,
+            language: formData.language,
+            content: formData.content,
+            tags: tagsArray,
+            isPublic: formData.isPublic,
+          },
+        });
+      } else {
+        await tables.createRow({
+          databaseId: "codeSnippets",
+          tableId: "snippets",
+          rowId: ID.unique(),
+          data: {
+            title: formData.title,
+            description: formData.description,
+            language: formData.language,
+            content: formData.content,
+            tags: tagsArray,
+            isPublic: formData.isPublic,
+            userId: user.$id,
+          },
+        });
+      }
 
       router.push("/dashboard");
       router.refresh();
@@ -107,9 +157,13 @@ export default function SnippetForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-6xl mx-auto p-6">
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold">Create Snippet</h2>
+        <h2 className="text-2xl font-bold">
+          {isEditMode ? "Edit Snippet" : "Create Snippet"}
+        </h2>
         <p className="text-muted-foreground">
-          Share your knowledge or save it for later.
+          {isEditMode
+            ? "Update your snippet details."
+            : "Share your knowledge or save it for later."}
         </p>
       </div>
 
@@ -144,20 +198,23 @@ export default function SnippetForm() {
 
       <div className="space-y-2">
         <Label htmlFor="language">Language</Label>
-        <select
-          id="language"
-          className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        <Select
           value={formData.language}
-          onChange={(e) =>
-            setFormData({ ...formData, language: e.target.value })
+          onValueChange={(value) =>
+            setFormData({ ...formData, language: value })
           }
         >
-          {languages.map((lang) => (
-            <option key={lang} value={lang} className="bg-background">
-              {lang.charAt(0).toUpperCase() + lang.slice(1)}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a language" />
+          </SelectTrigger>
+          <SelectContent>
+            {languages.map((lang) => (
+              <SelectItem key={lang} value={lang}>
+                {lang.charAt(0).toUpperCase() + lang.slice(1)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="space-y-2">
@@ -169,7 +226,7 @@ export default function SnippetForm() {
           onChange={(value: any) =>
             setFormData({ ...formData, content: value })
           }
-          options={{ fontSize: 16 }}
+          options={{ fontSize: 16, minimap: { enabled: false } }}
         />
       </div>
 
@@ -196,8 +253,14 @@ export default function SnippetForm() {
         <Label htmlFor="isPublic">Make Public</Label>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? "Creating..." : "Create Snippet"}
+      <Button type="submit" className="w-full" disabled={loading || isFetching}>
+        {loading
+          ? isEditMode
+            ? "Saving..."
+            : "Creating..."
+          : isEditMode
+            ? "Save Changes"
+            : "Create Snippet"}
       </Button>
     </form>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { account } from "@/lib/appwrite";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,29 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { checkAuth } = useAuth();
+  const { checkAuth, user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/dashboard");
+    }
+  }, [loading, user, router]);
+
+  if (loading) {
+    return (
+      <div className="text-sm text-muted-foreground text-center">
+        Checking your session...
+      </div>
+    );
+  }
+
+  if (user) {
+    return (
+      <div className="text-sm text-muted-foreground text-center">
+        Redirecting to your dashboard...
+      </div>
+    );
+  }
 
   const handleLogin = async () => {
     setError(null);
