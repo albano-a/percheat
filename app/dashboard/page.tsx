@@ -1,10 +1,24 @@
 "use client";
-
+import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { tables } from "@/lib/appwrite";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { FaCopy, FaCheck } from "react-icons/fa";
+import dynamic from "next/dynamic";
+
+// Dynamically import CodeEditor to reduce initial bundle size
+const CodeEditor = dynamic(
+  () =>
+    import("@/components/ui/editor").then((mod) => ({
+      default: mod.CodeEditor,
+    })),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[500px] w-full rounded-lg" />,
+  },
+);
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
@@ -57,7 +71,24 @@ export default function DashboardPage() {
   }
 
   if (loading) {
-    return <div className="p-8">Loading snippet...</div>;
+    return (
+      <div className="flex flex-col h-full max-w-4xl mx-auto w-full py-6 space-y-6">
+        <div className="flex flex-col space-y-2">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-9 w-64" />
+            <div className="flex items-center space-x-2">
+              <Skeleton className="h-6 w-20 rounded-full" />
+            </div>
+          </div>
+          <Skeleton className="h-7 w-full max-w-md" />
+          <div className="flex flex-wrap gap-2 mt-2">
+            <Skeleton className="h-5 w-16" />
+            <Skeleton className="h-5 w-24" />
+          </div>
+        </div>
+        <Skeleton className="h-100 w-full rounded-lg" />
+      </div>
+    );
   }
 
   if (!snippet) {
@@ -65,7 +96,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col h-full max-w-4xl mx-auto w-full py-6 space-y-6">
+    <div className="flex flex-col h-full max-w-6xl mx-auto w-full py-6 space-y-6">
       <div className="flex flex-col space-y-2">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold tracking-tight">{snippet.title}</h1>
@@ -74,7 +105,7 @@ export default function DashboardPage() {
               {snippet.language}
             </span>
             {snippet.isPublic && (
-              <span className="text-xs px-2 py-1 rounded-full border bg-green-500/10 text-green-600 font-medium">
+              <span className="text-xs px-2 py-1 rounded-full border bg-primary/10 border-primary text-primary font-medium">
                 Public
               </span>
             )}
@@ -84,12 +115,9 @@ export default function DashboardPage() {
         {snippet.tags && snippet.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-2">
             {snippet.tags.map((tag: string, index: number) => (
-              <span
-                key={index}
-                className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-md"
-              >
+              <Badge key={index} variant="secondary">
                 #{tag}
-              </span>
+              </Badge>
             ))}
           </div>
         )}
@@ -104,18 +132,21 @@ export default function DashboardPage() {
             onClick={handleCopy}
           >
             {copied ? (
-              <FaCheck className="mr-2 h-3 w-3 text-green-500" />
+              <FaCheck className="mr-2 h-3 w-3 text-primary" />
             ) : (
               <FaCopy className="mr-2 h-3 w-3" />
             )}
             {copied ? "Copied" : "Copy"}
           </Button>
         </div>
-        <div className="p-6 overflow-x-auto">
-          <pre className="font-mono text-sm leading-relaxed">
-            <code>{snippet.content}</code>
-          </pre>
-        </div>
+        <CodeEditor
+          height="500px"
+          language={snippet.language.toLowerCase()}
+          value={snippet.content}
+          options={{
+            fontSize: 18,
+          }}
+        />
       </div>
     </div>
   );

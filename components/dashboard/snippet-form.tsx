@@ -8,6 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { CodeEditor } from "@/components/ui/editor";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function SnippetForm() {
   const { user } = useAuth();
@@ -28,11 +38,15 @@ export default function SnippetForm() {
     "python",
     "javascript",
     "typescript",
+    "coffescript",
+    "bash",
+    "powershell",
     "java",
     "c",
     "cpp",
     "csharp",
     "go",
+    "haskell",
     "rust",
     "html",
     "css",
@@ -47,6 +61,18 @@ export default function SnippetForm() {
     if (!user) return;
     setLoading(true);
     setError("");
+
+    if (!formData.title.trim()) {
+      setError("Title is required");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.content.trim()) {
+      setError("Code content is required");
+      setLoading(false);
+      return;
+    }
 
     try {
       const tagsArray = formData.tags
@@ -79,7 +105,7 @@ export default function SnippetForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto p-6">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-6xl mx-auto p-6">
       <div className="space-y-2">
         <h2 className="text-2xl font-bold">Create Snippet</h2>
         <p className="text-muted-foreground">
@@ -128,23 +154,22 @@ export default function SnippetForm() {
         >
           {languages.map((lang) => (
             <option key={lang} value={lang} className="bg-background">
-              {lang}
+              {lang.charAt(0).toUpperCase() + lang.slice(1)}
             </option>
           ))}
         </select>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="content">Code Content</Label>
-        <Textarea
-          id="content"
-          required
-          placeholder="// Your code here..."
-          className="font-mono min-h-50"
+        <Label>Code Content</Label>
+        <CodeEditor
+          height="300px"
+          language={formData.language.toLowerCase()}
           value={formData.content}
-          onChange={(e) =>
-            setFormData({ ...formData, content: e.target.value })
+          onChange={(value: any) =>
+            setFormData({ ...formData, content: value })
           }
+          options={{ fontSize: 16 }}
         />
       </div>
 

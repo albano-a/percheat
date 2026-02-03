@@ -80,7 +80,7 @@ export default function Navbar() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="rounded-full text-muted-foreground hover:text-red-500"
+                          className="rounded-full text-muted-foreground hover:text-destructive"
                           onClick={() => logout()}
                         >
                           <FaSignOutAlt className="mr-2 h-3 w-3" />

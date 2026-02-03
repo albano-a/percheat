@@ -18,14 +18,15 @@ We utilize a dual-font stack optimized for readability and technical clarity.
   - Usage: Code snippets, technical identifiers, and terminal inputs.
 
 ## Color System
-The color system is built on semantic Tailwind CSS variables, derived from Shadcn UI standards.
+The color system is built on semantic Tailwind CSS variables, derived from Shadcn UI standards and defined in `globals.css`.
 
-- **Base**: Zinc/Slate grayscale.
+- **Semantic Variables**: We rely exclusively on CSS variables (e.g., `bg-background`, `text-muted-foreground`, `border-border`) rather than hardcoded colors (e.g., `zinc-500`, `gray-100`).
+- **Base**: Zinc/Slate grayscale via Oklch color space.
 - **Theming**: Native Light/Dark mode support using `next-themes`.
 - **Approach**: 
-  - Avoid heavy use of "brand colors". 
-  - Create hierarchy through contrast (`text-foreground` vs `text-muted-foreground`).
-  - Use `bg-transparent` where possible to maintain an airy feel.
+  - **No Hardcoded Colors**: All colors must reference `globals.css` variables.
+  - **Hierarchy**: Created through contrast (`text-foreground` vs `text-muted-foreground`).
+  - **Airy Feel**: Use `bg-transparent` where possible.
 
 ## Component Library
 **Shadcn UI** serves as the foundation, with specific overrides to match the organic/minimalist feel.

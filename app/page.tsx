@@ -11,7 +11,7 @@ export default function Home() {
         <h1 className="text-5xl md:text-8xl font-black text-foreground mb-8 tracking-tighter">
           Your Code.
           <br />
-          <span className="text-zinc-500">Everywhere.</span>
+          <span className="text-muted-foreground">Everywhere.</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto font-light leading-relaxed">
@@ -41,8 +41,8 @@ export default function Home() {
       {/* Features Section */}
       <section className="w-full py-24 px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-          <div className="space-y-4 border border-zinc-700 p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
-            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900 text-foreground">
+          <div className="space-y-4 border border-border p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
+            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-secondary text-secondary-foreground">
               <FaCode className="h-5 w-5" />
             </div>
             <h3 className="text-xl font-semibold tracking-tight">
@@ -54,8 +54,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-4 border border-zinc-700 p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
-            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900 text-foreground">
+          <div className="space-y-4 border border-border p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
+            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-secondary text-secondary-foreground">
               <FaSearch className="h-5 w-5" />
             </div>
             <h3 className="text-xl font-semibold tracking-tight">
@@ -67,8 +67,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-4 border border-zinc-700 p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
-            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900 text-foreground">
+          <div className="space-y-4 border border-border p-5 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
+            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-secondary text-secondary-foreground">
               <FaFingerprint className="h-5 w-5" />
             </div>
             <h3 className="text-xl font-semibold tracking-tight">
@@ -90,7 +90,7 @@ export default function Home() {
         <Button
           variant="outline"
           size="lg"
-          className="rounded-full px-8 border-bg-zinc-200 dark:border-zinc-800"
+          className="rounded-full px-8 border-input"
         >
           Join Percheat
         </Button>
