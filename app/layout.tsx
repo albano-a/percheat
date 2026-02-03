@@ -17,9 +17,7 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  ),
+  metadataBase: new URL("https://snippetvault.vercel.app"),
   title: {
     default: "SnippetVault",
     template: "%s | SnippetVault",
